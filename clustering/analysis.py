@@ -15,6 +15,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import MiniBatchKMeans
 from sklearn.decomposition import PCA
 from sklearn.metrics import homogeneity_score
+from sklearn.neighbors import NearestNeighbors
 
 data = pd.read_csv('datasets/AMD.csv')
 stopwords_model = stopwords.words('english')
@@ -66,5 +67,15 @@ plt.show()
 score_homogeneity = homogeneity_score(data.Headline, class_clusters.predict(features))
 print(score_homogeneity)
 
-
 #Nearest neighbour search
+knn = NearestNeighbors(n_neighbors=10, metric='cosine')
+knn.fit(features)
+distance, neighbour = knn.kneighbors(features, n_neighbors=2, return_distance=True) 
+for i in data.Headline.tolist():
+    for input_text, distances, neighbors in zip(i, distance, neighbour):
+        print("Input text = ", input_text[:200], "\n")
+        for dist, neighbor_idx in zip(distances, neighbors):
+            print("Distance = ", dist, "Neighbor idx = ", neighbor_idx)
+            print("-"*200)
+    print("="*200)
+    print()
