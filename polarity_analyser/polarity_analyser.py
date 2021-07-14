@@ -20,18 +20,22 @@ path_positive = os.path.relpath('/media/shreyas/DATA/linux_files/Capstone/Sentim
 path_negative = os.path.relpath('/media/shreyas/DATA/linux_files/Capstone/Sentiment_analysis/polarity_analyser/datasets/negative',current_path)
 
 def clean(text):
+    """"This function returns the cleaned version of the text input by using regular expression"""
     text = re.sub('[^A-Za-z]+', ' ', text)
     return text
 
 def create_tokens(text):
+    """This functions returns the tokenized version of the text"""
     tokens = word_tokenize(text)
     return tokens
 
 def remove_stopwords(tokens):
+    """This function removes stopword for given text and returns the new sentence"""
     new_text = (" ").join(element for element in tokens if element.lower() not in stopwords.words('english'))
     return new_text
 
 def parts_of_speech_tagging(tokens):
+    """"This function returns the sentence with its part of speech associated like adjective,noun,verb,adverb"""
     pos_dict = {'J':wordnet.ADJ, 'V':wordnet.VERB, 'N':wordnet.NOUN, 'R':wordnet.ADV}
     pos_tag_list = []
     tags = pos_tag(tokens)
@@ -41,6 +45,7 @@ def parts_of_speech_tagging(tokens):
     return pos_tag_list
 
 def lemmatize(pos_tag_list):
+    """This function returns the lemmatized sentence of the string"""
     wordnet_lemmatiser = WordNetLemmatizer()
     lemma_rew = " "
     for word, pos in pos_tag_list:
@@ -53,12 +58,14 @@ def lemmatize(pos_tag_list):
     return lemma_rew
         
 def create_list(file_name):
+    """This functions returns a list for the given input"""
     word_list = []
     for word in file_name:
         word_list.append(word.strip('\n'))
     return word_list
 
 def replace_in_text():
+    """This function returns the antonym """
     antonyms = set()
     for synonym in wordnet.synsets(word, pos=pos):
         for lemma in synonym.lemmas():
@@ -70,6 +77,7 @@ def replace_in_text():
                     return None
 
 def create_replacement_patterns(text):
+    """This function removes shortform of the word and returns in pure form like i'm as i am"""
     replacement_patterns = [
         (r'won\'t', 'will not'),
         (r'can\'t', 'cannot'),
@@ -100,6 +108,7 @@ def create_replacement_patterns(text):
     return list_of_words
 
 def find_polarity(text):
+    """This function returns the polarity of the given statement"""
     polarity = 0
     length = len(text)
     with open(path_increase, 'r') as increase, open(path_decrease, 'r') as decrease, open(path_invert, 'r') as invert, open(path_positive, 'r') as positive, open(path_negative, 'r') as negative:
