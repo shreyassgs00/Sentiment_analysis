@@ -22,5 +22,8 @@ def main():
         polarity = polarity_analyser.find_polarity(lemmatized_replacement_patterns)
         print(lemmatized_sentence,"       Polarity:", polarity)
 
+        polarity_intensity = polarity_analyser.find_intensity(lemmatized_sentence)
+        print(lemmatized_sentence,"       Polarity intensity:" ,polarity_intensity)
+
 if __name__ == '__main__':
     main()

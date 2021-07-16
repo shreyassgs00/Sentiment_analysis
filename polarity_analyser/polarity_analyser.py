@@ -12,6 +12,9 @@ from nltk.corpus import stopwords
 from nltk import pos_tag
 from nltk.stem import WordNetLemmatizer
 
+nltk.download('vader_lexicon')
+from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
+
 current_path = os.path.dirname(__file__)
 path_decrease = os.path.relpath('/media/shreyas/DATA/linux_files/Capstone/Sentiment_analysis/polarity_analyser/datasets/decrease',current_path)
 path_increase = os.path.relpath('/media/shreyas/DATA/linux_files/Capstone/Sentiment_analysis/polarity_analyser/datasets/increase',current_path)
@@ -153,3 +156,7 @@ def find_polarity(text):
             if word in neg_word_list:
                 polarity -= 1
         return polarity
+
+def find_intensity(text):
+    polarity_score = SIA().polarity_scores(text)
+    return polarity_score
